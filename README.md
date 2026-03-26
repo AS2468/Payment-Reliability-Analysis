@@ -19,6 +19,9 @@ Medium-value transactions (5k–20k) fail significantly more often than Micro pa
 
 # Findings
 High Card Failure Value
+
 Nighttime Success Drop
-High-Volume low-value trasnactions Failures
+
+High-Volume low-value transactions Failures
+
 Top 10 Failed Users for preventing churn
