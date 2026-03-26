@@ -1,27 +1,49 @@
-# Payment-Reliability-Analysis
-An organization was facing unidentified revenue leakage and customer frustration due to a fluctuating transaction success rate. Without analysis, one cannot identify whether the failures were due to technical bugs, user error, or specific payment gateways.
+# Digital Payments Reliability & Revenue Leakage Analysis
+This project analyzes 4,714 digital transactions to identify systemic failures within a payment ecosystem. By correlating transaction volumes, success rates, and financial values, the analysis uncovers ₹2.1M in revenue leakage and provides data-driven recommendations for infrastructure scaling and gateway optimization.
 
-# Analysis
-Created Amount Buckets (Micro to Medium) and Day Phases (Morning to Night) using DAX to categorize raw timestamps and values.
-Built high-level KPIs, including Success Rate %, Total Transactions, and Value of Failed Transactions.
-Connected the Customer Table to the Transaction Table to move from "Transaction counts" to "Human impact."
+# Key Business Insights (The Dashboard Results)
+1. The Nighttime Reliability Gap
 
-# Key Insights
-Identified ₹2.1M in failed transaction value. Card payments (₹615K) and UPI (₹592K) are the largest contributors to financial loss.
+A clear inverse correlation exists between transaction volume and success.
 
-While the Night phase has the highest volume of attempts, it has the lowest success rate (70%). This indicates a massive scalability issue during peak hours or scheduled bank downtime.
+The Night phase handles the highest traffic (32.77% of all transactions), yet suffers the lowest success rate at ~70%.
 
-Success rates drop to a low of **70% at Night**, despite having the highest volume, indicating server capacity issues.
+Business Impact: This indicates server congestion or bank-side maintenance during peak Indian retail hours.
 
-While UPI is the most popular, **Card payments** represent the highest financial risk, with **₹615K in lost value**.
+2. High-Value Transaction Friction
 
-Medium-value transactions (5k–20k) fail significantly more often than Micro payments, suggesting stricter bank-side security triggers or timeout issues for larger amounts.
+Success rates drop as transaction values increase from Micro (<500) to Medium (5k-20k).
 
-# Findings
-High Card Failure Value
+UPI and Wallet success rates dip by ~5% when moving into the Medium-value bucket.
 
-Nighttime Success Drop
+Business Impact: Suggests authentication timeouts or stricter security triggers on higher-value mobile payments.
 
-High-Volume low-value transactions Failures
+3. Financial Prioritization
 
-Top 10 Failed Users for preventing churn
+While UPI is the most frequent method, it is not the costliest failure point.
+
+Card payments represent the highest financial loss, totaling ₹615.59K in failed value.
+
+Business Impact: Prioritizing the Card gateway API fix offers the highest immediate ROI for the business.
+
+# Technical Implementation
+
+Created a calculated column "Day_Phase" to bucket timestamps into Morning, Afternoon, Evening, and Night.
+
+Developed "Amount_Bucket" calculated column to categorize transactions by size.
+
+Established a One-to-Many relationship between the Customer and Transaction tables to track unique user impact (identifying 732 affected customers).
+
+# Primary Measures Used
+Success Rate % = DIVIDE([Successful_Txns], [Total_Txns])
+
+Value of Failed Txns = CALCULATE(SUM(Transactions[Amount]), Transactions[Status] <> "Success")
+
+Unique Customers Failing = DISTINCTCOUNT(Transactions[Customer_ID]) filtered by failure status.
+
+# Business Recommendations
+Scale API/Server resources specifically for the Night phase to handle the 32%+ volume peak.
+
+Prioritize a technical audit of the Card Payment Gateway to recover the ₹615K+ currently being lost.
+
+Use the Unique Customers Failing list to proactively reach out to users of failed transactions to prevent churn.
