@@ -1,9 +1,6 @@
 # Digital Payments Reliability & Revenue Leakage Analysis
 This project analyzes 4,714 digital transactions to identify systemic failures within a payment ecosystem. By correlating transaction volumes, success rates, and financial values, the analysis uncovers ₹2.1M in revenue leakage and provides data-driven recommendations for infrastructure scaling and gateway optimization.
 
-<img width="1428" height="808" alt="image" src="https://github.com/user-attachments/assets/1eb0535c-b0fd-4f68-bae7-97c0d21cb9c9" />
-
-
 # Key Business Insights (The Dashboard Results)
 1. The Nighttime Reliability Gap
 
